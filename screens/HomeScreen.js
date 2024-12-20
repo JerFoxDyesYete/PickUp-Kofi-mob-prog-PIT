@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   TextInput,
+  FlatList,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -126,10 +127,9 @@ const hotProduct = [
     image:
       'https://images.deliveryhero.io/image/menu-import-gateway-prd/regions/AS/chains/mosaic_ph/2a56ed32ee04fe61c24c64d5f33c4eba.jpg??width=400',
     price: '₱89.00',
-    description:
-      'Dark Chocolate with hot steamed milk and rich espresso.',
+    description: 'Dark Chocolate with hot steamed milk and rich espresso.',
   },
-    {
+  {
     id: 'HP06',
     name: 'Hot Vanilla Latte',
     image:
@@ -137,7 +137,8 @@ const hotProduct = [
     price: '₱90.00',
     description:
       'A velvety blend of creamy vanilla with hot steamed milk and rich espresso..',
-  },  {
+  },
+  {
     id: 'HP02',
     name: 'Hot White Mocha Latte',
     image:
@@ -145,15 +146,16 @@ const hotProduct = [
     price: '₱99.00',
     description:
       'White chocolate with our hot steamed milk blend and rich espresso.',
-  },  {
+  },
+  {
     id: 'HP03',
     name: 'Hot Kape Kastila (Spanish Latte)',
     image:
       'https://images.deliveryhero.io/image/menu-import-gateway-prd/regions/AS/chains/mosaic_ph/d6be2c95af26ba4738a360146fd16ec3.jpg??width=400',
     price: '₱80.00',
-    description:
-      'Leche condensada, hot steamed milk and rich espresso.',
-  },  {
+    description: 'Leche condensada, hot steamed milk and rich espresso.',
+  },
+  {
     id: 'HP04',
     name: 'Hot Brown Sugar Latte',
     image:
@@ -161,7 +163,8 @@ const hotProduct = [
     price: '₱85.00',
     description:
       'Rich espresso with hot steamed milk and brown molasses syrup.',
-  },  {
+  },
+  {
     id: 'HP05',
     name: 'Hot Caramel Macchiato',
     image:
@@ -175,16 +178,36 @@ const hotProduct = [
 export default function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredChristmas, setFilteredChristmas] = useState(christmas);
+  const [filteredHotProducts, setFilteredHotProducts] = useState(hotProduct);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
+
     if (query.trim() === '') {
       setFilteredProducts(products);
+      setFilteredChristmas(christmas);
+      setFilteredHotProducts(hotProduct);
     } else {
-      const filtered = products.filter((product) =>
-        product.name.toLowerCase().includes(query.toLowerCase())
+      const searchLower = query.toLowerCase();
+
+      setFilteredProducts(
+        products.filter((product) =>
+          product.name.toLowerCase().includes(searchLower)
+        )
       );
-      setFilteredProducts(filtered);
+
+      setFilteredChristmas(
+        christmas.filter((product) =>
+          product.name.toLowerCase().includes(searchLower)
+        )
+      );
+
+      setFilteredHotProducts(
+        hotProduct.filter((product) =>
+          product.name.toLowerCase().includes(searchLower)
+        )
+      );
     }
   };
 
@@ -192,7 +215,6 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        {' '}
         <Image
           source={{
             uri: 'https://scontent.fmnl13-3.fna.fbcdn.net/v/t39.30808-6/465592968_551633044292264_2402671005152608906_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeGMI4WHAdb0WPUvhSZOS2Y2-1atc8SVkpv7Vq1zxJWSm-KnUCfHaoR-e_CMioiYXb_CX51GbqXnKiCCmduQOrwy&_nc_ohc=JGmTlamGll4Q7kNvgH6fuEx&_nc_zt=23&_nc_ht=scontent.fmnl13-3.fna&_nc_gid=Agm93UEMOk6bAYyBcFT2IOp&oh=00_AYBc0oQv1AKhtF7Gq_0LF7trBfZKx8lSfNs1S3u5nmcnPw&oe=676A05A9',
@@ -200,9 +222,6 @@ export default function HomeScreen({ navigation }) {
           style={styles.image}
         />
       </View>
-
-      {/* Image below the header */}
-      <View style={styles.imageWrapper}></View>
 
       {/* Search Bar */}
       <View style={styles.searchBar}>
@@ -223,72 +242,131 @@ export default function HomeScreen({ navigation }) {
 
       {/* Menu Section */}
       <ScrollView style={styles.menuContainer}>
-        {/* Christmas Classics Section */}
-        <Text style={styles.trySignaturesText}>NEW! Christmas Classics</Text>
-        <View style={styles.menuRow}>
-          {christmas.map((item) => (
-            <TouchableOpacity
-              key={item.id}
-              style={styles.productCard}
-              onPress={() =>
-                navigation.navigate('ProductDetails', { product: item })
-              }>
-              <Image source={{ uri: item.image }} style={styles.productImage} />
-              <Text style={styles.productName}>{item.name}</Text>
-              <Text style={styles.productPrice}>{item.price}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        {searchQuery.trim() === '' ? (
+          <>
+            {/* Christmas Classics Section */}
+            <Text style={styles.trySignaturesText}>
+              NEW! Christmas Classics
+            </Text>
+            <View style={styles.menuRow}>
+              {filteredChristmas.length > 0 ? (
+                filteredChristmas.map((item) => (
+                  <TouchableOpacity
+                    key={item.id}
+                    style={styles.productCard}
+                    onPress={() =>
+                      navigation.navigate('ProductDetails', { product: item })
+                    }>
+                    <Image
+                      source={{ uri: item.image }}
+                      style={styles.productImage}
+                    />
+                    <Text style={styles.productName}>{item.name}</Text>
+                    <Text style={styles.productPrice}>{item.price}</Text>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <Text style={styles.noResults}>No products found</Text>
+              )}
+            </View>
 
-        {/* Must Try Signatures Section */}
-        <Text style={styles.trySignaturesText}>
-          Must Try! Signatures (ICED)
-        </Text>
-        <View style={styles.menuRow}>
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
+            {/* Must Try Signatures Section (ICED) */}
+            <Text style={styles.trySignaturesText}>
+              Must Try! Signatures (ICED)
+            </Text>
+            <View style={styles.menuRow}>
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product) => (
+                  <TouchableOpacity
+                    key={product.id}
+                    style={styles.productCard}
+                    onPress={() =>
+                      navigation.navigate('ProductDetails', { product })
+                    }>
+                    <Image
+                      source={{ uri: product.image }}
+                      style={styles.productImage}
+                    />
+                    <Text style={styles.productName}>{product.name}</Text>
+                    <Text style={styles.productPrice}>{product.price}</Text>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <Text style={styles.noResults}>No products found</Text>
+              )}
+            </View>
+
+            {/* Must Try Signatures Section (HOT) */}
+            <Text style={styles.trySignaturesText}>
+              Must Try! Signatures (HOT)
+            </Text>
+            <View style={styles.menuRow}>
+              {filteredHotProducts.length > 0 ? (
+                filteredHotProducts.map((item) => (
+                  <TouchableOpacity
+                    key={item.id}
+                    style={styles.productCard}
+                    onPress={() =>
+                      navigation.navigate('ProductDetails', { product: item })
+                    }>
+                    <Image
+                      source={{ uri: item.image }}
+                      style={styles.productImage}
+                    />
+                    <Text style={styles.productName}>{item.name}</Text>
+                    <Text style={styles.productPrice}>{item.price}</Text>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <Text style={styles.noResults}>No products found</Text>
+              )}
+            </View>
+          </>
+        ) : (
+          // Render a unified two-column layout for search results
+          <FlatList
+            data={[
+              ...filteredChristmas,
+              ...filteredProducts,
+              ...filteredHotProducts,
+            ]}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            columnWrapperStyle={{
+              justifyContent: 'space-between',
+              marginBottom: 10,
+            }}
+            renderItem={({ item }) => (
               <TouchableOpacity
-                key={product.id}
                 style={styles.productCard}
                 onPress={() =>
-                  navigation.navigate('ProductDetails', { product })
+                  navigation.navigate('ProductDetails', { product: item })
                 }>
                 <Image
-                  source={{ uri: product.image }}
+                  source={{ uri: item.image }}
                   style={styles.productImage}
                 />
-                <Text style={styles.productName}>{product.name}</Text>
-                <Text style={styles.productPrice}>{product.price}</Text>
+                <Text style={styles.productName}>{item.name}</Text>
+                <Text style={styles.productPrice}>{item.price}</Text>
               </TouchableOpacity>
-            ))
-          ) : (
-            <Text style={styles.noResults}>No products found</Text>
-          )}
-        </View>
-
-        {/* Must Try Signatures Section HOT */}
-        <Text style={styles.trySignaturesText}>Must Try! Signatures (HOT)</Text>
-        <View style={styles.menuRow}>
-          {hotProduct.map((item) => (
-            <TouchableOpacity
-              key={item.id}
-              style={styles.productCard}
-              onPress={() =>
-                navigation.navigate('ProductDetails', { product: item })
-              }>
-              <Image source={{ uri: item.image }} style={styles.productImage} />
-              <Text style={styles.productName}>{item.name}</Text>
-              <Text style={styles.productPrice}>{item.price}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+            )}
+            ListEmptyComponent={() => (
+              <Text style={styles.noResults}>No products found</Text>
+            )}
+          />
+        )}
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f5f5f5', padding: 10 },
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    padding: 10,
+    paddingTop: 220, // Added padding to avoid overlap with the header
+  },
   header: {
     height: 200,
     backgroundColor: '#aac27e',
@@ -301,7 +379,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   imageWrapper: {
-    marginTop: -30, // Make sure the image doesn't overlap with the header
+    marginTop: -30, // Ensure the image doesn't overlap with the header
     width: '100%',
     height: 200, // Adjust height as needed
   },
@@ -321,7 +399,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 3,
-    marginTop: 30, // Adjust this for proper spacing after the image
   },
   searchIcon: { marginRight: 10 },
   searchInput: { flex: 1, fontSize: 16 },
