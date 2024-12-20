@@ -41,7 +41,8 @@ export default function ProductDetailsScreen({ route, navigation }) {
     }
 
     if (optionType === 'milk') {
-      const previousMilkPrice = selectedMilk === 'oat' ? 30 : selectedMilk === 'soy' ? 20 : 0;
+      const previousMilkPrice =
+        selectedMilk === 'oat' ? 30 : selectedMilk === 'soy' ? 20 : 0;
       if (selectedMilk === optionValue) {
         return; // Prevent duplicate price addition
       }
@@ -77,15 +78,14 @@ export default function ProductDetailsScreen({ route, navigation }) {
       popupOpacity.setValue(0);
       navigation.navigate('Cart', { cartItem });
       navigation.navigate('Home');
-    }, 1500);
+    }, 1000);
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
+        onPress={() => navigation.goBack()}>
         <Ionicons name="arrow-back" size={30} color="#e8efdc" />
       </TouchableOpacity>
       <View style={styles.imageContainer}>
@@ -104,14 +104,12 @@ export default function ProductDetailsScreen({ route, navigation }) {
               styles.optionButton,
               selectedSize === 'upsize' && styles.selectedOption,
             ]}
-            onPress={() => updateOption('size', 'upsize', 15)}
-          >
+            onPress={() => updateOption('size', 'upsize', 15)}>
             <Text
               style={[
                 styles.optionText,
                 selectedSize === 'upsize' && styles.selectedText,
-              ]}
-            >
+              ]}>
               Upsize (+₱15.00)
             </Text>
           </TouchableOpacity>
@@ -123,14 +121,12 @@ export default function ProductDetailsScreen({ route, navigation }) {
               styles.optionButton,
               selectedMilk === 'oat' && styles.selectedOption,
             ]}
-            onPress={() => updateOption('milk', 'oat', 30)}
-          >
+            onPress={() => updateOption('milk', 'oat', 30)}>
             <Text
               style={[
                 styles.optionText,
                 selectedMilk === 'oat' && styles.selectedText,
-              ]}
-            >
+              ]}>
               Oat Milk (+₱30.00)
             </Text>
           </TouchableOpacity>
@@ -139,14 +135,12 @@ export default function ProductDetailsScreen({ route, navigation }) {
               styles.optionButton,
               selectedMilk === 'soy' && styles.selectedOption,
             ]}
-            onPress={() => updateOption('milk', 'soy', 20)}
-          >
+            onPress={() => updateOption('milk', 'soy', 20)}>
             <Text
               style={[
                 styles.optionText,
                 selectedMilk === 'soy' && styles.selectedText,
-              ]}
-            >
+              ]}>
               Soy Milk (+₱20.00)
             </Text>
           </TouchableOpacity>
@@ -158,14 +152,12 @@ export default function ProductDetailsScreen({ route, navigation }) {
               styles.optionButton,
               selectedTaste === 'lessSweet' && styles.selectedOption,
             ]}
-            onPress={() => updateOption('taste', 'lessSweet', 0)}
-          >
+            onPress={() => updateOption('taste', 'lessSweet', 0)}>
             <Text
               style={[
                 styles.optionText,
                 selectedTaste === 'lessSweet' && styles.selectedText,
-              ]}
-            >
+              ]}>
               Less Sweet
             </Text>
           </TouchableOpacity>
@@ -174,14 +166,12 @@ export default function ProductDetailsScreen({ route, navigation }) {
               styles.optionButton,
               selectedTaste === 'original' && styles.selectedOption,
             ]}
-            onPress={() => updateOption('taste', 'original', 0)}
-          >
+            onPress={() => updateOption('taste', 'original', 0)}>
             <Text
               style={[
                 styles.optionText,
                 selectedTaste === 'original' && styles.selectedText,
-              ]}
-            >
+              ]}>
               Original Recipe
             </Text>
           </TouchableOpacity>
@@ -207,8 +197,7 @@ export default function ProductDetailsScreen({ route, navigation }) {
         </View>
         <TouchableOpacity
           style={styles.addToCartButton}
-          onPress={handleAddToCart}
-        >
+          onPress={handleAddToCart}>
           <Text style={styles.addToCartText}>
             Add to Cart - ₱{(total * quantity).toFixed(2)}
           </Text>
@@ -237,44 +226,44 @@ const styles = StyleSheet.create({
   scrollContainer: { padding: 20 },
   imageContainer: {
     width: '100%',
-    height: 300, // Adjust the height as per your requirement
+    height: 300, 
     position: 'relative',
     marginBottom: 60,
   },
   productImage: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover', // Ensures the image covers the entire area
-    position: 'absolute', // Makes the image fill the container
+    resizeMode: 'cover', 
+    position: 'absolute', 
   },
   productInfoCard: {
     position: 'absolute',
-    bottom: -100, // Adjust this value for more or less overlap
+    bottom: -100, 
     left: 20,
     right: 20,
     backgroundColor: 'white',
     padding: 15,
     borderRadius: 10,
     elevation: 5,
-    zIndex: 1, // Ensure the info card overlaps the image
+    zIndex: 1, 
     marginBottom: 50,
   },
   productInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  productName: { fontSize: 20, fontWeight: 'bold', color: '#333' },
-  productPrice: { fontSize: 16, color: '#889b64' },
+  productName: { fontSize: 20, fontWeight: 'bold', color: '#333', marginBottom: 2 },
+  productPrice: { fontSize: 16, color: '#889b64', marginBottom: 2},
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   optionGroup: { marginBottom: 5 },
   optionGroupRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   optionButton: {
     flexDirection: 'row',
@@ -286,8 +275,8 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     marginBottom: 10,
     width: '48%',
-    zIndex: 2, // Ensure option buttons appear above the image
-    margin: 5
+    zIndex: 2, 
+    margin: 5,
   },
   selectedOption: {
     backgroundColor: '#aac27e',
@@ -304,7 +293,7 @@ const styles = StyleSheet.create({
     color: '#465528',
   },
   specialInstructions: {
-    height: 150, // Adjust the height as needed
+    height: 150, 
     borderColor: '#ddd',
     borderWidth: 1,
     borderRadius: 5,
@@ -313,8 +302,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingTop: 10,
     textAlignVertical: 'top',
-    backgroundColor: '#fff', // Optional for better visibility
-    fontSize: 14, // Set font size for the input
+    backgroundColor: '#fff', 
+    fontSize: 14, 
   },
   fixedBottom: {
     position: 'absolute',
@@ -331,13 +320,13 @@ const styles = StyleSheet.create({
   quantityButtons: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '30%',
+    width: '20%',
   },
   quantityButton: {
     backgroundColor: '#aac27e',
-    padding: 8,
+    padding: 10,
     borderRadius: 20,
-    marginHorizontal: 5,
+    marginHorizontal: 10,
   },
   quantity: { fontSize: 16 },
   addToCartButton: {
@@ -345,16 +334,16 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center',
     borderRadius: 5,
-    width: '65%',
+    width: '60%',
   },
-  addToCartText: { color: 'white', fontSize: 14, fontWeight: 'bold' },
+  addToCartText: { color: 'white', fontSize: 16, fontWeight: 'bold' },
   cartPopup: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.7)', // White transparent background
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,

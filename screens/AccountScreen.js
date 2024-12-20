@@ -4,14 +4,14 @@ import Icon from 'react-native-vector-icons/FontAwesome'; // Import the FontAwes
 
 export default function AccountScreen() {
     const [userData, setUserData] = useState({
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@example.com',
-        phoneNumber: '123-456-7890',
+        firstName: 'Johnny',
+        lastName: 'Sins',
+        email: 'johnny.sins@example.com',
+        phoneNumber: '0936-123-4567',
     });
 
-    const [isEditing, setIsEditing] = useState(false); 
-    const [modalVisible, setModalVisible] = useState(false); 
+    const [isEditing, setIsEditing] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const initials = userData.firstName[0] + userData.lastName[0];
 
@@ -40,21 +40,27 @@ export default function AccountScreen() {
             </View>
             <View style={styles.form}>
                 <Text style={styles.label}>Name</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Name: "
-                    value={`${userData.firstName} ${userData.lastName}`}
-                    editable={isEditing}
-                    onChangeText={(text) => {
-                        const [firstName, lastName] = text.split(' ');
-                        setUserData({ ...userData, firstName, lastName });
-                    }}
-                />
+                <View style={styles.nameRow}>
+                    <TextInput
+                        style={[styles.input, styles.nameInput]}
+                        placeholder="First Name"
+                        value={userData.firstName}
+                        editable={isEditing}
+                        onChangeText={(text) => setUserData({ ...userData, firstName: text })}
+                    />
+                    <TextInput
+                        style={[styles.input, styles.nameInput]}
+                        placeholder="Last Name"
+                        value={userData.lastName}
+                        editable={isEditing}
+                        onChangeText={(text) => setUserData({ ...userData, lastName: text })}
+                    />
+                </View>
 
                 <Text style={styles.label}>Email Address</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Email Address: "
+                    placeholder="Email Address"
                     value={userData.email}
                     editable={isEditing}
                     keyboardType="email-address"
@@ -64,7 +70,7 @@ export default function AccountScreen() {
                 <Text style={styles.label}>Phone Number</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Phone Number: "
+                    placeholder="Phone Number"
                     value={userData.phoneNumber}
                     editable={isEditing}
                     keyboardType="phone-pad"
@@ -114,7 +120,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 20,
         position: 'relative',
-        marginBottom: 30
+        marginBottom: 30,
     },
     imageWrapper: {
         width: 100,
@@ -145,6 +151,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 20,
         elevation: 2,
+    },
+    nameRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    nameInput: {
+        flex: 1,
+        marginHorizontal: 5,
     },
     buttonsContainer: {
         marginTop: 20,
@@ -195,8 +209,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-      flexDirection: 'row',
-      justifyContent: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
         width: 200,
         backgroundColor: '#aac27e', // Modal background color
         borderRadius: 10,
@@ -205,7 +219,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     modalText: {
-      paddingLeft: 20,
+        paddingLeft: 20,
         fontSize: 18,
         color: 'white', // White text color
         textAlign: 'center',

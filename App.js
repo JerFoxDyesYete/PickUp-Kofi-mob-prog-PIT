@@ -47,7 +47,7 @@ export default function App() {
           tabBarActiveTintColor: '#aac27e', // Active tab color
           tabBarInactiveTintColor: 'gray', // Inactive tab color
           tabBarStyle: styles.tabBar, // Custom tab bar styles
-          headerShown: false, // Hide headers for all tabs
+          headerShown: false, // Hide headers for all tabs 
         })}
       >
         <Tab.Screen name="Home" component={HomeStack} />
@@ -69,6 +69,6 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     borderWidth: 1,
     borderColor: '#e0e0e0',
-    paddingBottom: 10, // Space below tab icons
+    paddingBottom: 5, // Space below tab icons
   },
 });
